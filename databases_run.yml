@@ -1,0 +1,34 @@
+#Перед виконанням даної команди потрібно щоб на віддаленій машині був публічни ключ у файлі ~/.ssh/authorized_keys
+#а приватний ключ на поточній машині у файлі ~/.ssh/id_rsa (файл з цим іменем використовується за промовчанням клієнтом ssh) або в іншому файлі, (але тоді в команді потрібно вказати його імя)
+# Також потрібно змінити доступи на файл $ chmod 400 ~/.ssh/id_rsa
+- hosts: databases
+  become: true
+  vars:
+    ansible_python_interpreter: "/usr/bin/env python3"
+
+  tasks:
+  # tasks file for catalogue-run
+- name: Docker Login
+  docker_login:
+    registry: https://hub.docker.com/repository/docker/vasylw/catalogue
+    username: _json_key
+    debug: true
+    password: " {{ lookup('file', '/var/lib/jenkins/credential/dockerhub.json')}}"
+  become: yes
+  
+- name: Run catalogue container
+  docker_container:
+    name: catalogue
+    image: "vasylw/catalogue:latest"
+    ports:
+      - "8080:80"
+    restart_policy: always
+    networks:
+      - name: socks
+    etc_hosts:
+        catalogue-db: "{{ db_host }}"
+    pull: yes
+    recreate: yes
+    state: started 
+    user: root
+  become: yes
