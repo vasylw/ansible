@@ -8,14 +8,25 @@
 
   tasks:
   # tasks file for catalogue-run
-- name: Docker Login
-  docker_login:
-    registry: https://hub.docker.com/repository/docker/vasylw/catalogue
-    username: _json_key
-    debug: true
-    password: " {{ lookup('file', '/var/lib/jenkins/credential/dockerhub.json')}}"
-  become: yes
+
+
   
+- name: Create a network
+  docker_network:
+    name: socks
+  become: yes
+
+- name: Run catalogue-db container
+  docker_container:
+    name: catalogue-db
+    image: "vasylw/catalogue:latest"
+    ports:
+      - "3306:3306"
+    restart_policy: always
+    pull: yes
+    user: root
+  become: yes
+
 - name: Run catalogue container
   docker_container:
     name: catalogue
