@@ -16,16 +16,45 @@
     name: socks
   become: yes
 
+- name: Run front-end container
+  docker_container:
+    name: front_end
+    image: "vasylw/front-end:latest"
+    ports:
+      - "80:8079"
+    restart_policy: always
+    networks: 
+      - name: socks
+    pull: yes
+    recreate: yes
+    state: started 
+    user: root
+  become: yes
+
+- name: Create and run carts-db container
+  docker_container:
+    name: carts-db
+    image: "vasylw/carts-db:latest"
+    ports:
+     - "27017:27017"
+    restart_policy: always
+    user: root
+  become: yes
+  become_user: root
+  become_method: sudo
+
 - name: Run catalogue-db container
   docker_container:
     name: catalogue-db
-    image: "vasylw/catalogue:latest"
+    image: "vasylw/catalogue-db:latest"
     ports:
       - "3306:3306"
     restart_policy: always
     pull: yes
     user: root
   become: yes
+  
+  
 
 - name: Run catalogue container
   docker_container:
