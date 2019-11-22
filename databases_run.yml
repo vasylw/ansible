@@ -37,7 +37,7 @@
     networks:
       - name: socks
     etc_hosts:
-        catalogue-db: "{{ db_host }}"
+        catalogue-db: "{{ cat /var/lib/jenkins/workspace/Build_IS_Terraform/private_ip_database.txt }}"
     pull: yes
     recreate: yes
     state: started 
