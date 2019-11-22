@@ -16,20 +16,6 @@
     name: socks
   become: yes
 
-- name: Run front-end container
-  docker_container:
-    name: front_end
-    image: "vasylw/front-end:latest"
-    ports:
-      - "80:8079"
-    restart_policy: always
-    networks: 
-      - name: socks
-    pull: yes
-    recreate: yes
-    state: started 
-    user: root
-  become: yes
 
 - name: Create and run carts-db container
   docker_container:
@@ -54,7 +40,22 @@
     user: root
   become: yes
   
-  
+  - name: Run carts container
+  docker_container:
+    name: carts
+    image: "vasylw/appcarts:latest"
+    ports:
+      - "8081:80"
+    restart_policy: always
+    networks:
+      - name: socks
+    env:
+      DB_NETWORK_IP: "{{ cat /var/lib/jenkins/workspace/Build_IS_Terraform/private_ip_database.txt }}"
+    pull: yes
+    recreate: yes
+    state: started 
+    user: root
+  become: yes
 
 - name: Run catalogue container
   docker_container:
@@ -72,3 +73,19 @@
     state: started 
     user: root
   become: yes
+  
+  - name: Run front-end container
+  docker_container:
+    name: front_end
+    image: "vasylw/front-end:latest"
+    ports:
+      - "80:8079"
+    restart_policy: always
+    networks: 
+      - name: socks
+    pull: yes
+    recreate: yes
+    state: started 
+    user: root
+  become: yes
+
