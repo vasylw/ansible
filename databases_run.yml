@@ -20,7 +20,7 @@
 - name: Create and run carts-db container
   docker_container:
     name: carts-db
-    image: "vasylw/carts-db:latest"
+    image: "mongo:latest"
     ports:
      - "27017:27017"
     restart_policy: always
