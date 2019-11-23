@@ -35,35 +35,35 @@
       update_cache: yes
       
   - hosts: database_server
-  become: true
-  vars:
-    ansible_python_interpreter: "/usr/bin/env python3"
+    become: true
+    vars:
+     ansible_python_interpreter: "/usr/bin/env python3"
 
-  tasks:
-  # tasks file for catalogue-run
+    tasks:
+    # tasks file for catalogue-run
 
 
   
-- name: Create a network
-  docker_network:
+  - name: Create a network
+    docker_network:
     name: socks
-  become: yes
+    become: yes
 
 
-- name: Create and run carts-db container
-  docker_container:
+  - name: Create and run carts-db container
+    docker_container:
     name: carts-db
     image: "mongo:latest"
     ports:
      - "27017:27017"
     restart_policy: always
     user: root
-  become: yes
-  become_user: root
-  become_method: sudo
+    become: yes
+    become_user: root
+    become_method: sudo
 
-- name: Run catalogue-db container
-  docker_container:
+  - name: Run catalogue-db container
+    docker_container:
     name: catalogue-db
     image: "vasylw/catalogue-db:latest"
     ports:
@@ -71,10 +71,10 @@
     restart_policy: always
     pull: yes
     user: root
-  become: yes
+    become: yes
   
   - name: Run carts container
-  docker_container:
+    docker_container:
     name: carts
     image: "vasylw/appcarts:latest"
     ports:
@@ -88,10 +88,10 @@
     recreate: yes
     state: started 
     user: root
-  become: yes
+    become: yes
 
-- name: Run catalogue container
-  docker_container:
+  - name: Run catalogue container
+    docker_container:
     name: catalogue
     image: "vasylw/catalogue:latest"
     ports:
@@ -105,10 +105,10 @@
     recreate: yes
     state: started 
     user: root
-  become: yes
+    become: yes
   
   - name: Run front-end container
-  docker_container:
+    docker_container:
     name: front_end
     image: "vasylw/front-end:latest"
     ports:
@@ -120,5 +120,5 @@
     recreate: yes
     state: started 
     user: root
-  become: yes
+    become: yes
 
