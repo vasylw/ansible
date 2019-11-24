@@ -8,29 +8,29 @@
 
     - name: "Create a network"
       docker_network:
-      name: socks
+       name: socks
       become: yes
 
 
     - name: "Create and run carts-db container"
       docker_container:
-      name: carts-db
-      image: "mongo:latest"
-      ports:
-       - "27017:27017"
-      restart_policy: always
-      user: root
+       name: carts-db
+       image: "mongo:latest"
+       ports:
+        - "27017:27017"
+       restart_policy: always
+       user: root
       become: yes
       become_user: root
       become_method: sudo
 
     - name: "Run catalogue-db container"
       docker_container:
-      name: catalogue-db
-      image: "vasylw/catalogue-db:latest"
-      ports:
-        - "3306:3306"
-      restart_policy: always
-      pull: yes
-      user: root
+       name: catalogue-db
+       image: "vasylw/catalogue-db:latest"
+       ports:
+         - "3306:3306"
+       restart_policy: always
+       pull: yes
+       user: root
       become: yes
