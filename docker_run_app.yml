@@ -46,7 +46,7 @@
   
     - name: "Run front-end container"
       docker_container:
-       name: front_end
+       name: front-end
        image: "vasylw/frontend:latest"
        ports:
        - "80:8079"
