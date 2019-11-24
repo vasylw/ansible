@@ -3,7 +3,9 @@
     vars:
      ansible_python_interpreter: "/usr/bin/env python3"
 
-  - name: Run carts container
+  tasks:
+  
+  - name: "Run carts container"
     docker_container:
     name: carts
     image: "vasylw/appcarts:latest"
@@ -20,7 +22,7 @@
     user: root
     become: yes
 
-  - name: Run catalogue container
+  - name: "Run catalogue container"
     docker_container:
     name: catalogue
     image: "vasylw/catalogue:latest"
@@ -37,7 +39,7 @@
     user: root
     become: yes
   
-  - name: Run front-end container
+  - name: "Run front-end container"
     docker_container:
     name: front_end
     image: "vasylw/front-end:latest"
