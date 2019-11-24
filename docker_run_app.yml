@@ -47,7 +47,7 @@
     - name: "Run front-end container"
       docker_container:
        name: front_end
-       image: "vasylw/front-end:latest"
+       image: "vasylw/frontend:latest"
        ports:
        - "80:8079"
        restart_policy: always
