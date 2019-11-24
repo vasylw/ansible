@@ -24,13 +24,13 @@
       become_user: root
       become_method: sudo
 
-   - name: "Run catalogue-db container"
-     docker_container:
-     name: catalogue-db
-     image: "vasylw/catalogue-db:latest"
-     ports:
-       - "3306:3306"
-     restart_policy: always
-     pull: yes
-     user: root
-     become: yes
+    - name: "Run catalogue-db container"
+      docker_container:
+      name: catalogue-db
+      image: "vasylw/catalogue-db:latest"
+      ports:
+        - "3306:3306"
+      restart_policy: always
+      pull: yes
+      user: root
+      become: yes
