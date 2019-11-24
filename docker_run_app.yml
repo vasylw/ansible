@@ -19,8 +19,8 @@
         restart_policy: always
         networks:
          - name: socks
-      env:
-        DB_NETWORK_IP: "{{ cat /var/lib/jenkins/workspace/Build_IS_Terraform/private_ip_database.txt }}"
+        env:
+          DB_NETWORK_IP: "{{ cat /var/lib/jenkins/workspace/Build_IS_Terraform/private_ip_database.txt }}"
         pull: yes
         recreate: yes
         state: started 
