@@ -1,4 +1,9 @@
-- name: Run carts container
+  - hosts: carts_app_server
+    become: true
+    vars:
+     ansible_python_interpreter: "/usr/bin/env python3"
+
+  - name: Run carts container
     docker_container:
     name: carts
     image: "vasylw/appcarts:latest"
