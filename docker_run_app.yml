@@ -3,59 +3,59 @@
     vars:
      ansible_python_interpreter: "/usr/bin/env python3"
 
-  tasks:
+    tasks:
   
-  - name: "Create a network"
-    docker_network:
-     name: socks
-    become: yes
+    - name: "Create a network"
+      docker_network:
+       name: socks
+      become: yes
       
-  - name: "Run carts container"
-    docker_container:
-     name: carts
-     image: "vasylw/appcarts:latest"
-     ports:
-      - "8081:80"
-     restart_policy: always
-     networks:
-      - name: socks
-     env:
-      DB_NETWORK_IP: "{{ cat /var/lib/jenkins/workspace/Build_IS_Terraform/private_ip_database.txt }}"
-     pull: yes
-     recreate: yes
-     state: started 
-     user: root
-    become: yes
+    - name: "Run carts container"
+      docker_container:
+        name: carts
+        image: "vasylw/appcarts:latest"
+        ports:
+         - "8081:80"
+        restart_policy: always
+        networks:
+         - name: socks
+      env:
+        DB_NETWORK_IP: "{{ cat /var/lib/jenkins/workspace/Build_IS_Terraform/private_ip_database.txt }}"
+        pull: yes
+        recreate: yes
+        state: started 
+        user: root
+      become: yes
 
-  - name: "Run catalogue container"
-    docker_container:
-     name: catalogue
-     image: "vasylw/catalogue:latest"
-     ports:
-      - "8080:80"
-     restart_policy: always
-     networks:
-      - name: socks
-     etc_hosts:
+    - name: "Run catalogue container"
+      docker_container:
+       name: catalogue
+       image: "vasylw/catalogue:latest"
+       ports:
+       - "8080:80"
+       restart_policy: always
+       networks:
+       - name: socks
+       etc_hosts:
         catalogue-db: "{{ cat /var/lib/jenkins/workspace/Build_IS_Terraform/private_ip_database.txt }}"
-     pull: yes
-     recreate: yes
-     state: started 
-     user: root
-    become: yes
+       pull: yes
+       recreate: yes
+       state: started 
+       user: root
+      become: yes
   
-  - name: "Run front-end container"
-    docker_container:
-     name: front_end
-     image: "vasylw/front-end:latest"
-     ports:
-      - "80:8079"
-     restart_policy: always
-     networks: 
-      - name: socks
-     pull: yes
-     recreate: yes
-     state: started 
-     user: root
-    become: yes
+    - name: "Run front-end container"
+      docker_container:
+       name: front_end
+       image: "vasylw/front-end:latest"
+       ports:
+       - "80:8079"
+       restart_policy: always
+       networks: 
+       - name: socks
+       pull: yes
+       recreate: yes
+       state: started 
+       user: root
+      become: yes
 
