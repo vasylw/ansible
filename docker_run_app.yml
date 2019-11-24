@@ -5,6 +5,11 @@
 
   tasks:
   
+  - name: "Create a network"
+    docker_network:
+     name: socks
+    become: yes
+      
   - name: "Run carts container"
     docker_container:
      name: carts
