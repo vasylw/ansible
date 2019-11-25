@@ -20,7 +20,7 @@
         networks:
          - name: socks
         env:
-          DB_NETWORK_IP: "172.31.60.70"
+          DB_NETWORK_IP: "172.31.48.205"
         pull: yes
         recreate: yes
         state: started 
@@ -37,7 +37,7 @@
        networks:
        - name: socks
        etc_hosts:
-        catalogue-db: "172.31.60.70"
+        catalogue-db: "172.31.48.205"
        pull: yes
        recreate: yes
        state: started 
