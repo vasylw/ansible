@@ -21,6 +21,9 @@
        restart_policy: always
        networks:
          - name: socks
+       pull: yes
+       recreate: yes
+       state: started 
        user: root
       become: yes
       become_user: root
@@ -36,5 +39,7 @@
        networks:
          - name: socks
        pull: yes
+       recreate: yes
+       state: started 
        user: root
       become: yes
