@@ -17,8 +17,10 @@
        name: carts-db
        image: "mongo:3.4"
        ports:
-        - "27017:27017"
+         - "27017:27017"
        restart_policy: always
+       networks:
+         - name: socks
        user: root
       become: yes
       become_user: root
@@ -31,6 +33,8 @@
        ports:
          - "3306:3306"
        restart_policy: always
+       networks:
+         - name: socks
        pull: yes
        user: root
       become: yes
