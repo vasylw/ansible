@@ -6,12 +6,6 @@
     tasks:
     # tasks file for catalogue-run
 
-    - name: "Create a network"
-      docker_network:
-       name: socks
-      become: yes
-
-
     - name: "Create and run carts-db container"
       docker_container:
        name: carts-db
@@ -20,7 +14,7 @@
          - "27017:27017"
        restart_policy: always
        networks:
-         - name: socks
+         - name: host
        pull: yes
        recreate: yes
        state: started 
@@ -37,7 +31,7 @@
          - "3306:3306"
        restart_policy: always
        networks:
-         - name: socks
+         - name: host
        pull: yes
        recreate: yes
        state: started 
