@@ -4,12 +4,7 @@
      ansible_python_interpreter: "/usr/bin/env python3"
 
     tasks:
-  
-    - name: "Create a network"
-      docker_network:
-       name: socks
-      become: yes
-      
+          
     - name: "Run carts container"
       docker_container:
         name: carts
@@ -18,7 +13,7 @@
          - "8081:80"
         restart_policy: always
         networks:
-         - name: socks
+         - name: host
         env:
           DB_NETWORK_IP: "172.31.56.58"
         pull: yes
@@ -35,7 +30,7 @@
        - "8080:80"
        restart_policy: always
        networks:
-       - name: socks
+       - name: host
        etc_hosts:
         catalogue-db: "172.31.56.58"
        pull: yes
@@ -52,7 +47,7 @@
        - "80:8079"
        restart_policy: always
        networks: 
-       - name: socks
+       - name: host
        pull: yes
        recreate: yes
        state: started 
