@@ -15,7 +15,7 @@
         networks:
          - name: host
         env:
-          DB_NETWORK_IP: "172.31.56.58"
+          DB_NETWORK_IP: "172.31.62.190"
         pull: yes
         recreate: yes
         state: started 
@@ -32,7 +32,7 @@
        networks:
        - name: host
        etc_hosts:
-        catalogue-db: "172.31.56.58"
+        catalogue-db: "172.31.62.190"
        pull: yes
        recreate: yes
        state: started 
