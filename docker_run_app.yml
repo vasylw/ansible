@@ -5,14 +5,7 @@
      database: "{{ hostvars[groups['database_server'][0]]['inventory_hostname'] }}"
 
     tasks:
-  
-    - name: "Create a network"
-      docker_network:
-       name: socks
-       driver: overlay
-       attachable: true
-      become: yes
-      
+       
     - name: "Run carts container"
       docker_container:
         name: carts
