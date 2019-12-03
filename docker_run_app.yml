@@ -13,8 +13,6 @@
         ports:
          - "8081:80"
         restart_policy: always
-        networks:
-         - name: socks
         env:
           DB_NETWORK_IP: {{ database }}
         pull: yes
@@ -30,8 +28,6 @@
        ports:
        - "8080:80"
        restart_policy: always
-       networks:
-       - name: socks
        etc_hosts:
         catalogue-db: {{ database }}
        pull: yes
@@ -47,8 +43,6 @@
        ports:
        - "80:8079"
        restart_policy: always
-       networks: 
-       - name: socks
        pull: yes
        recreate: yes
        state: started 
