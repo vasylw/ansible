@@ -2,6 +2,7 @@
     become: true
     vars:
      ansible_python_interpreter: "/usr/bin/env python3"
+     database: "{{ hostvars[groups['database_server'][0]]['inventory_hostname'] }}"
 
     tasks:
   
@@ -22,7 +23,7 @@
         networks:
          - name: socks
         env:
-          DB_NETWORK_IP: "172.31.49.192"
+          DB_NETWORK_IP: {{ database }}
         pull: yes
         recreate: yes
         state: started 
@@ -39,7 +40,7 @@
        networks:
        - name: socks
        etc_hosts:
-        catalogue-db: "172.31.49.192"
+        catalogue-db: {{ database }}
        pull: yes
        recreate: yes
        state: started 
