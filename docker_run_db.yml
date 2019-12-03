@@ -13,8 +13,6 @@
        ports:
          - "27017:27017"
        restart_policy: always
-       networks:
-         - name: socks
        pull: yes
        recreate: yes
        state: started 
@@ -30,8 +28,6 @@
        ports:
          - "3306:3306"
        restart_policy: always
-       networks:
-         - name: socks
        pull: yes
        recreate: yes
        state: started 
