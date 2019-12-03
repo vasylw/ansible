@@ -1,8 +1,9 @@
 ---
   - name: Init Swarm Master
-    hosts: masters
+    hosts: carts_app_server
+    remote_user: ubuntu
     gather_facts: False
-    remote_user: ec2-user
+    
     tasks:
       - name: Swarm Init
         command: docker swarm init --advertise-addr {{ inventory_hostname }}
@@ -22,8 +23,8 @@
         debug: var=master_token.stdout
 
   - name: Join Swarm Cluster
-    hosts: workers
-    remote_user: ec2-user
+    hosts: database_server
+    remote_user: ubuntu
     gather_facts: False
     vars:
       token: "{{ hostvars[groups['masters'][0]]['worker_token']['stdout'] }}"
