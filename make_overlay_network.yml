@@ -1,9 +1,9 @@
-- name: Made an overlay network socks
-    hosts: all
-    gather_facts: False
-    become: true
-    vars:
-     ansible_python_interpreter: "/usr/bin/env python3"
+- hosts: all
+  become: true
+  gather_facts: False
+  vars:
+    ansible_python_interpreter: "/usr/bin/env python3"
+    
       
     tasks:
       - name: Create a network
