@@ -57,9 +57,9 @@
     hosts: all
       
     tasks:
-      - name: "Create a network"
+      - name: Create a network
         docker_network:
-        name: socks
-        driver: overlay
-        attachable: true
+         name: socks
+         driver: overlay
+         attachable: true
         become: yes
