@@ -51,15 +51,3 @@
       - name: Show Errors
         debug: var=worker.stderr
         become: yes
-    
-  - name: Made an overlay network socks
-    become: true
-    hosts: all
-      
-    tasks:
-      - name: Create a network
-        docker_network:
-         name: socks
-         driver: overlay
-         attachable: true
-        become: yes
