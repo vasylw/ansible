@@ -8,6 +8,8 @@
     - name: "Create a network"
       docker_network:
        name: socks
+       driver: overlay
+       attachable: true
       become: yes
       
     - name: "Run carts container"
