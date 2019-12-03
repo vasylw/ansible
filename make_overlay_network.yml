@@ -1,7 +1,7 @@
 - name: Made an overlay network socks
-    become: true
     hosts: all
     gather_facts: False
+    become: true
     vars:
      ansible_python_interpreter: "/usr/bin/env python3"
       
