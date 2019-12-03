@@ -1,4 +1,3 @@
----
   - name: Init Swarm Master
     hosts: carts_app_server
     remote_user: ubuntu
