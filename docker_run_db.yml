@@ -6,13 +6,6 @@
     tasks:
     # tasks file for catalogue-run
 
-    - name: "Create a network"
-      docker_network:
-       name: socks
-       driver: overlay
-       attachable: true
-      become: yes
-
     - name: "Create and run carts-db container"
       docker_container:
        name: carts-db
