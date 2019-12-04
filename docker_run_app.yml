@@ -10,6 +10,9 @@
       docker_container:
         name: carts
         image: "vasylw/appcarts:latest"
+        purge_networks: yes
+        networks:
+          - name: socks
         ports:
          - "8081:80"
         restart_policy: always
@@ -25,6 +28,9 @@
       docker_container:
        name: catalogue
        image: "vasylw/catalogue:latest"
+       purge_networks: yes
+       networks:
+         - name: socks
        ports:
        - "8080:80"
        restart_policy: always
@@ -40,6 +46,9 @@
       docker_container:
        name: front-end
        image: "vasylw/frontend:latest"
+       purge_networks: yes
+       networks:
+          - name: socks
        ports:
        - "80:8079"
        restart_policy: always
