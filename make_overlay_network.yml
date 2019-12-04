@@ -8,7 +8,7 @@
  
   - name: Setup an overlay network
       docker_network:
-      name: test_overlay
-      driver: overlay
-      ipam_options:
+       name: socks
+       driver: overlay
+       ipam_options:
         subnet: '10.10.10.0/24'
