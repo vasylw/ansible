@@ -3,12 +3,13 @@
   gather_facts: False
   vars:
     ansible_python_interpreter: "/usr/bin/env python3"
-    
-      
-    tasks:
-      - name: Create a network
-        docker_network:
+  
+  tasks:
+    - name: Create a network with driver options
+      docker_network:
          name: socks
          driver: overlay
-         attachable: true
-        become: yes
+         state: present
+         attachable: yes
+  
+
