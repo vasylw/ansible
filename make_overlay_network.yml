@@ -6,9 +6,11 @@
  
   tasks:
  
-  - name: Setup an overlay network
-      docker_network:
-       name: socks
-       driver: overlay
-       ipam_options:
-        subnet: '10.10.10.0/24'
+ - name: Create a network with driver options
+   docker_network:
+    name: socks
+    driver_options:
+      driver: overlay
+    ipam_options:
+      subnet: '10.10.10.0/24'     
+ 
