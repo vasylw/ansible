@@ -10,6 +10,9 @@
       docker_container:
        name: carts-db
        image: "mongo:3.4"
+       purge_networks: yes
+       networks:
+         - name: socks
        ports:
          - "27017:27017"
        restart_policy: always
@@ -25,6 +28,9 @@
       docker_container:
        name: catalogue-db
        image: "vasylw/catalogue-db:latest"
+       purge_networks: yes
+       networks:
+         - name: socks
        ports:
          - "3306:3306"
        restart_policy: always
