@@ -4,11 +4,13 @@
   vars:
     ansible_python_interpreter: "/usr/bin/env python3"
  
- - name: Setup an overlay network
-   docker_network:
-     name: socks
-     driver: overlay
-     ipam_options:
-       subnet: '10.10.10.0/24'
-     state: present
-     attachable: yes
+  tasks:
+ 
+  - name: Setup an overlay network
+    docker_network:
+      name: socks
+      driver: overlay
+      ipam_options:
+        subnet: '10.10.10.0/24'
+      state: present
+      attachable: yes
