@@ -11,6 +11,7 @@
       network_mode: "socks"
       ports:
         - "5601:5601"
+      user: root
       recreate: yes
       state: started 
       restart_policy: always
@@ -23,7 +24,6 @@
       owner: 1000
       group: 1000
       force: yes
-      user: root
      become: yes
      
 
@@ -48,6 +48,7 @@
       volumes:
         - /tmp/elasticsearch.yml:/usr/share/elasticsearch/config/elasticsearch.yml:Z
       #user:   elasticsearch
+      user: root
       recreate: yes
       state: started       
       restart_policy: always  
@@ -57,7 +58,6 @@
       src: "/var/lib/jenkins/workspace/Build_IS_Terraform/cartsservice/nginx.conf"
       dest: /tmp
       force: yes
-      user: root
      become: yes
   
    - name: copy htpsswd to elk-server
@@ -65,7 +65,6 @@
       src: "/tmp/htpasswd.users"
       dest: /tmp
       force: yes
-      user: root
      become: yes  
   
     
@@ -78,7 +77,8 @@
         - /tmp/.htpasswd.elk:/etc/nginx/htpasswd.elk
         - /tmp/nginx.conf:/etc/nginx/nginx.conf
       ports: 
-        - "80:80"  
+        - "80:80" 
+      user: root
       recreate: yes
       state: started
       restart_policy: always
@@ -88,7 +88,6 @@
       src: "/var/lib/jenkins/workspace/Build_IS_Terraform/cartsservice/filebeat.yml"
       dest: /tmp
       force: yes
-      user: root
      become: yes
 
    - name: Create filebeat container
