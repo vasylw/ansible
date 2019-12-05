@@ -1,6 +1,7 @@
 - hosts: elk
-    - name: Create kibana container
-    docker_container:
+   tasks:
+   - name: Create kibana container
+     docker_container:
       name: kibana
       image: kibana:7.4.2
       network_mode: "socks"
