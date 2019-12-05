@@ -60,12 +60,12 @@
       force: yes
      become: yes
   
-   - name: copy htpsswd to elk-server
-     copy:
-      src: "/var/lib/jenkins/workspace/Build_IS_Terraform/cartsservice/htpasswd.users"
-      dest: /tmp
-      force: yes
-     become: yes  
+  # - name: copy htpsswd to elk-server
+   #  copy:
+  #    src: "/var/lib/jenkins/workspace/Build_IS_Terraform/cartsservice/htpasswd.users"
+  #    dest: /tmp
+  #    force: yes
+  #   become: yes  
   
     
    - name: Create nginx container
