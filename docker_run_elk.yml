@@ -17,7 +17,7 @@
 
    - name: copy elasticsearch conf 
      copy:
-      src: "/var/lib/jenkins/workspace/Build_IS_Terraform/elasticsearch.yml"
+      src: "/var/lib/jenkins/workspace/Build_IS_Terraform/cartsservice/elasticsearch.yml"
       dest: /tmp
       mode: 0644
       owner: 1000
@@ -54,7 +54,7 @@
 
    - name: copy nginx.conf to elk-server
      copy:
-      src: "/var/lib/jenkins/workspace/Build_IS_Terraform/nginx.conf"
+      src: "/var/lib/jenkins/workspace/Build_IS_Terraform/cartsservice/nginx.conf"
       dest: /tmp
       force: yes
       user: root
@@ -85,7 +85,7 @@
       
    - name: copy filebeat conf to db-tf
      copy:
-      src: "/var/lib/jenkins/workspace/Build_IS_Terraform/filebeat.yml"
+      src: "/var/lib/jenkins/workspace/Build_IS_Terraform/cartsservice/filebeat.yml"
       dest: /tmp
       force: yes
       user: root
