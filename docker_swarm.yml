@@ -62,7 +62,7 @@
        token: "{{ hostvars[groups['elk'][0]]['worker_token']['stdout'] }}"
        master: "{{ hostvars[groups['elk'][0]]['inventory_hostname'] }}"
       
-     tasks:
+    tasks:
        - name: Join_Swarm_Cluster_as_a_Worker
          command: docker swarm join --token {{ token }} {{ master }}:2377
          register: worker
