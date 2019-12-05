@@ -2,23 +2,22 @@
     become: true
     vars:
      ansible_python_interpreter: "/usr/bin/env python3"
-     database: "{{ hostvars[groups['elk'][0]]['inventory_hostname'] }}"
+     host: "{{ hostvars[groups['elk'][0]]['inventory_hostname'] }}"
 
     tasks:
        
     - name: "Run elasticsearch container"
       docker_container:
         name: elasticsearch
-        image: "docker.elastic.co/elasticsearch/elasticsearch:5.4.1"
+        image: "elasticsearch"
         purge_networks: yes
         networks:
           - name: socks
         ports:
          - "9200:9200"
-        ports:
          - "9300:9300"
         etc_hosts:
-         elasticsearch: "{{ db_host }}"
+         elasticsearch: "{{ host }}"
         restart_policy: always
         pull: yes
         recreate: yes
@@ -26,34 +25,41 @@
         user: root
       become: yes
 
-    - name: "Run catalogue container"
+    - name: "Run kibana container"
       docker_container:
-       name: catalogue
-       image: "vasylw/catalogue:latest"
+       name: kibana
+       image: "kibana"
        purge_networks: yes
        networks:
          - name: socks
        ports:
-       - "8080:80"
+       - "5601:5601"
        restart_policy: always
        etc_hosts:
-        catalogue-db: "{{ database }}"
+        elasticsearch: "{{ host }}"
+        kibana: "{{ host }}"
        pull: yes
        recreate: yes
        state: started 
        user: root
       become: yes
   
-    - name: "Run front-end container"
+    - name: "Run logstash container"
       docker_container:
-       name: front-end
-       image: "vasylw/frontend:latest"
+       name: logstash
+       image: "logstash"
        purge_networks: yes
        networks:
           - name: socks
        ports:
        - "80:8079"
        restart_policy: always
+       etc_hosts:
+        logstash: "{{ host }}"
+       volumes:
+       - /home/
+       files:
+       - /home/logstash.conf
        pull: yes
        recreate: yes
        state: started 
