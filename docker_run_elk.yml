@@ -62,7 +62,7 @@
   
    - name: copy htpsswd to elk-server
      copy:
-      src: "/tmp/htpasswd.users"
+      src: "/var/lib/jenkins/workspace/Build_IS_Terraform/cartsservice/htpasswd.users"
       dest: /tmp
       force: yes
      become: yes  
