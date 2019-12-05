@@ -12,7 +12,7 @@
 
   - name: copy elasticksearch conf 
     copy:
-      src: "{{ WORKSPACE }}/elasticsearch.yml"
+      src: "/var/lib/jenkins/workspace/Build_IS_Terraform/elasticsearch.yml"
       dest: /tmp
       mode: 0644
       owner: 1000
@@ -47,14 +47,14 @@
 
   - name: copy nginx.conf to elk-server
     copy:
-      src: "{{ WORKSPACE }}/nginx.conf"
+      src: "/var/lib/jenkins/workspace/Build_IS_Terraform/nginx.conf"
       dest: /tmp
       force: yes
     become: yes
   
   - name: copy htpsswd to elk-server
     copy:
-      src: "{{ WORKSPACE }}/.htpasswd.elk"
+      src: "/tmp/htpasswd.users"
       dest: /tmp
       force: yes
     become: yes  
