@@ -75,7 +75,7 @@
       restart_policy: always 
   - name: copy filebeat conf to db-tf
   copy:
-    src: "{{ WORKSPACE }}/filebeat.yml"
+    src: "/var/lib/jenkins/workspace/Build_IS_Terraform/filebeat.yml"
     dest: /tmp
     force: yes
   become: yes
