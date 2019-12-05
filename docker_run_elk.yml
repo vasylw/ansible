@@ -1,67 +1,75 @@
 - hosts: elk
-    become: true
-    vars:
-     ansible_python_interpreter: "/usr/bin/env python3"
-     host: "{{ hostvars[groups['elk'][0]]['inventory_hostname'] }}"
+    - name: Create kibana container
+    docker_container:
+      name: kibana
+      image: kibana:7.4.2
+      network_mode: "socks"
+      ports:
+        - "5601:5601"
+      recreate: yes
+      state: started 
+      restart_policy: always
 
-    tasks:
-       
-    - name: "Run elasticsearch container"
-      docker_container:
-        name: elasticsearch
-        image: "elasticsearch"
-        purge_networks: yes
-        networks:
-          - name: socks
-        ports:
-         - "9200:9200"
-         - "9300:9300"
-        etc_hosts:
-         elasticsearch: "{{ host }}"
-        restart_policy: always
-        pull: yes
-        recreate: yes
-        state: started 
-        user: root
-      become: yes
+  - name: copy elasticksearch conf 
+    copy:
+      src: "{{ WORKSPACE }}/elasticsearch.yml"
+      dest: /tmp
+      mode: 0644
+      owner: 1000
+      group: 1000
+      force: yes
+    become: yes
 
-    - name: "Run kibana container"
-      docker_container:
-       name: kibana
-       image: "kibana"
-       purge_networks: yes
-       networks:
-         - name: socks
-       ports:
-       - "5601:5601"
-       restart_policy: always
-       etc_hosts:
-        elasticsearch: "{{ host }}"
-        kibana: "{{ host }}"
-       pull: yes
-       recreate: yes
-       state: started 
-       user: root
-      become: yes
+  - name: Create ElasticSearch container
+    docker_container:
+      name: elasticsearch
+      image: docker.elastic.co/elasticsearch/elasticsearch:7.4.2
+      network_mode: "socks"
+      ports:
+        - "9200:9200"
+        - "9300:9300"
+      env: 
+        ES_JAVA_OPTS: "-Xms750m -Xmx750m"
+        bootstrap.memory_lock: "true"
+        xpack.security.enabled: "false"
+        discovery.type: "single-node"
+       # es.enforce.bootstrap.checks: "true"
+      ulimits:
+        - "nofile:262144:262144"
+        - "nproc:65535:65535"
+        - "memlock:-1:-1"
+      volumes:
+        - /tmp/elasticsearch.yml:/usr/share/elasticsearch/config/elasticsearch.yml:Z
+      #user:   elasticsearch
+      recreate: yes
+      state: started       
+      restart_policy: always  
+
+  - name: copy nginx.conf to elk-server
+    copy:
+      src: "{{ WORKSPACE }}/nginx.conf"
+      dest: /tmp
+      force: yes
+    become: yes
   
-    - name: "Run logstash container"
-      docker_container:
-       name: logstash
-       image: "logstash"
-       purge_networks: yes
-       networks:
-          - name: socks
-       ports:
-       - "9200:9200"
-       restart_policy: always
-       etc_hosts:
-        logstash: "{{ host }}"
-       volumes:
-       - /home/
-       files:
-       - /home/logstash.conf
-       pull: yes
-       recreate: yes
-       state: started 
-       user: root
-      become: yes
+  - name: copy htpsswd to elk-server
+    copy:
+      src: "{{ WORKSPACE }}/.htpasswd.elk"
+      dest: /tmp
+      force: yes
+    become: yes  
+  
+    
+  - name: Create nginx container
+    docker_container:
+      name: nginx
+      image: nginx
+      network_mode: "socks"
+      volumes:
+        - /tmp/.htpasswd.elk:/etc/nginx/htpasswd.elk
+        - /tmp/nginx.conf:/etc/nginx/nginx.conf
+      ports: 
+        - "80:80"  
+      recreate: yes
+      state: started
+      restart_policy: always 
