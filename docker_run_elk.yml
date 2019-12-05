@@ -1,5 +1,6 @@
 - hosts: elk
-   tasks:
+  
+  tasks:
    - name: Create kibana container
      docker_container:
       name: kibana
@@ -73,13 +74,14 @@
         - "80:80"  
       recreate: yes
       state: started
-      restart_policy: always 
+      restart_policy: always
+      
   - name: copy filebeat conf to db-tf
-  copy:
-    src: "/var/lib/jenkins/workspace/Build_IS_Terraform/filebeat.yml"
-    dest: /tmp
-    force: yes
-  become: yes
+    copy:
+     src: "/var/lib/jenkins/workspace/Build_IS_Terraform/filebeat.yml"
+     dest: /tmp
+     force: yes
+    become: yes
 
   - name: Create filebeat container
     docker_container:
