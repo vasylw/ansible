@@ -52,12 +52,12 @@
         debug: var=worker.stderr
         become: yes
         
-  - name: Join Swarm Cluster
-     become: true
-     hosts: elk
+  - name: Join Swarm Cluster elk
+    become: true
+    hosts: elk
     
-     gather_facts: False
-     vars:
+    gather_facts: False
+    vars:
        ansible_python_interpreter: "/usr/bin/env python3"
        token: "{{ hostvars[groups['elk'][0]]['worker_token']['stdout'] }}"
        master: "{{ hostvars[groups['elk'][0]]['inventory_hostname'] }}"
