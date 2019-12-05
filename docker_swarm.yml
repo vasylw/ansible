@@ -51,3 +51,27 @@
       - name: Show Errors
         debug: var=worker.stderr
         become: yes
+        
+  - name: Join Swarm Cluster
+     become: true
+     hosts: elk
+    
+     gather_facts: False
+     vars:
+       ansible_python_interpreter: "/usr/bin/env python3"
+       token: "{{ hostvars[groups['elk'][0]]['worker_token']['stdout'] }}"
+       master: "{{ hostvars[groups['elk'][0]]['inventory_hostname'] }}"
+      
+     tasks:
+       - name: Join_Swarm_Cluster_as_a_Worker
+         command: docker swarm join --token {{ token }} {{ master }}:2377
+         register: worker
+         become: yes
+
+       - name: Show Results
+         debug: var=worker.stdout
+         become: yes
+
+       - name: Show Errors
+         debug: var=worker.stderr
+         become: yes
