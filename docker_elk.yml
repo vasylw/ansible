@@ -2,13 +2,13 @@
     become: true
     vars:
      ansible_python_interpreter: "/usr/bin/env python3"
-     database: "{{ hostvars[groups['database_server'][0]]['inventory_hostname'] }}"
+     database: "{{ hostvars[groups['elk'][0]]['elk'] }}"
 
     tasks:
        
-    - name: "Run  container"
+    - name: "Run logstash container"
       docker_container:
-        name: carts
+        name: logstash
         image: "vasylw/appcarts:latest"
         purge_networks: yes
         networks:
@@ -24,9 +24,9 @@
         user: root
       become: yes
 
-    - name: "Run catalogue container"
+    - name: "Run elasticsearch container"
       docker_container:
-       name: catalogue
+       name: elasticsearch
        image: "vasylw/catalogue:latest"
        purge_networks: yes
        networks:
@@ -42,9 +42,9 @@
        user: root
       become: yes
   
-    - name: "Run front-end container"
+    - name: "Run kebana container"
       docker_container:
-       name: front-end
+       name: kebana
        image: "vasylw/frontend:latest"
        purge_networks: yes
        networks:
