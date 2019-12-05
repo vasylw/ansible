@@ -73,3 +73,28 @@
       recreate: yes
       state: started
       restart_policy: always 
+  - name: copy filebeat conf to db-tf
+  copy:
+    src: "{{ WORKSPACE }}/filebeat.yml"
+    dest: /tmp
+    force: yes
+  become: yes
+
+  - name: Create filebeat container
+    docker_container:
+     name: filebeat
+     image: docker.io/elastic/filebeat:7.4.2
+     network_mode: "socks"
+     command: ["sh","-c","filebeat -e -strict.perms=false"]
+     volumes:
+      - /tmp/filebeat.yml:/usr/share/filebeat/filebeat.yml:ro
+      - /var/lib/docker/containers:/var/lib/docker/containers:ro
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - /var/log:/var/log:ro
+     env: 
+      output.elasticsearch.hosts: "elk-server:9200"
+     user: root
+     recreate: yes
+     state: started
+     restart_policy: always
+    become: yes
