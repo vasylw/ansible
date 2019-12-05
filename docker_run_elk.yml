@@ -15,7 +15,7 @@
       state: started 
       restart_policy: always
 
-   - name: copy elasticksearch conf 
+   - name: copy elasticsearch conf 
      copy:
       src: "/var/lib/jenkins/workspace/Build_IS_Terraform/elasticsearch.yml"
       dest: /tmp
@@ -23,7 +23,9 @@
       owner: 1000
       group: 1000
       force: yes
+      user: root
      become: yes
+     
 
    - name: Create ElasticSearch container
      docker_container:
@@ -55,6 +57,7 @@
       src: "/var/lib/jenkins/workspace/Build_IS_Terraform/nginx.conf"
       dest: /tmp
       force: yes
+      user: root
      become: yes
   
    - name: copy htpsswd to elk-server
@@ -62,6 +65,7 @@
       src: "/tmp/htpasswd.users"
       dest: /tmp
       force: yes
+      user: root
      become: yes  
   
     
@@ -84,6 +88,7 @@
       src: "/var/lib/jenkins/workspace/Build_IS_Terraform/filebeat.yml"
       dest: /tmp
       force: yes
+      user: root
      become: yes
 
    - name: Create filebeat container
