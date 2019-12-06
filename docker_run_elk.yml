@@ -8,7 +8,8 @@
      docker_container:
       name: kibana
       image: kibana:7.4.2
-      network_mode: "socks"
+      networks:
+          - name: socks
       ports:
         - "5601:5601"
       user: root
@@ -31,7 +32,8 @@
      docker_container:
       name: elasticsearch
       image: docker.elastic.co/elasticsearch/elasticsearch:7.4.2
-      network_mode: "socks"
+      networks:
+          - name: socks
       ports:
         - "9200:9200"
         - "9300:9300"
@@ -72,7 +74,8 @@
      docker_container:
       name: nginx
       image: nginx
-      network_mode: "socks"
+      networks:
+          - name: socks
       volumes:
         - /tmp/.htpasswd:/etc/nginx/htpasswd.elk
         - /tmp/nginx.conf:/etc/nginx/nginx.conf
@@ -94,7 +97,8 @@
      docker_container:
       name: filebeat
       image: docker.io/elastic/filebeat:7.4.2
-      network_mode: "socks"
+      networks:
+          - name: socks
       command: ["sh","-c","filebeat -e -strict.perms=false"]
       volumes:
        - /tmp/filebeat.yml:/usr/share/filebeat/filebeat.yml:ro
@@ -102,7 +106,7 @@
        - /var/run/docker.sock:/var/run/docker.sock:ro
        - /var/log:/var/log:ro
       env: 
-       output.elasticsearch.hosts: "elk-server:9200"
+       output.elasticsearch.hosts: "elk:9200"
       user: root
       recreate: yes
       state: started
