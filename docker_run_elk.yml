@@ -18,7 +18,7 @@
 
    - name: copy elasticsearch conf 
      copy:
-      src: "/var/lib/jenkins/workspace/Build_IS_Terraform/cartsservice/elasticsearch.yml"
+      src: "/var/lib/jenkins/workspace/elasticsearch.yml"
       dest: /tmp
       mode: 0644
       owner: 1000
@@ -55,17 +55,17 @@
 
    - name: copy nginx.conf to elk-server
      copy:
-      src: "/var/lib/jenkins/workspace/Build_IS_Terraform/cartsservice/nginx.conf"
+      src: "/var/lib/jenkins/workspace/nginx.conf"
       dest: /tmp
       force: yes
      become: yes
   
-  # - name: copy htpsswd to elk-server
-   #  copy:
-  #    src: "/var/lib/jenkins/workspace/Build_IS_Terraform/cartsservice/htpasswd.users"
-  #    dest: /tmp
-  #    force: yes
-  #   become: yes  
+   - name: copy htpsswd to elk-server
+     copy:
+      src: "/var/lib/jenkins/workspace/htpasswd.users"
+      dest: /tmp
+      force: yes
+     become: yes  
   
     
    - name: Create nginx container
@@ -85,7 +85,7 @@
       
    - name: copy filebeat conf to db-tf
      copy:
-      src: "/var/lib/jenkins/workspace/Build_IS_Terraform/cartsservice/filebeat.yml"
+      src: "/var/lib/jenkins/workspace/filebeat.yml"
       dest: /tmp
       force: yes
      become: yes
