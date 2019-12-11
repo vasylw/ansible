@@ -7,7 +7,7 @@
    - name: Create kibana container
      docker_container:
       name: kibana
-      image: hub.docker.com/_/kibana
+      image: kibana
       networks:
           - name: socks
       ports:
