@@ -31,7 +31,7 @@
    - name: Create ElasticSearch container
      docker_container:
       name: elasticsearch
-      image: docker.elastic.co/elasticsearch/elasticsearch
+      image: docker.elastic.co/elasticsearch/elasticsearch:7.4.2
       networks:
           - name: socks
       ports:
@@ -96,7 +96,7 @@
    - name: Create filebeat container
      docker_container:
       name: filebeat
-      image: docker.io/elastic/filebeat
+      image: docker.io/elastic/filebeat:7.4.2
       networks:
           - name: socks
       command: ["sh","-c","filebeat -e -strict.perms=false"]
